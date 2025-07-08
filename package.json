@@ -1,0 +1,35 @@
+{
+  "name": "mastra-mcp-server",
+  "version": "0.1.0",
+  "bin": {
+    "mastra-mcp-server": "bin/mastra-mcp-server.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "test": "jest",
+    "cdk": "cdk"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.14",
+    "@types/node": "22.7.9",
+    "aws-cdk": "2.1019.2",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
+    "typescript": "~5.6.3"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.15.0",
+    "@mastra/core": "^0.10.10",
+    "@mastra/mcp": "^0.10.5",
+    "aws-cdk-lib": "2.201.0",
+    "constructs": "^10.0.0",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "hono": "^4.8.4",
+    "serverless-http": "^3.2.0",
+    "tools": "link:@mastra/core/tools",
+    "zod": "^3.25.75"
+  }
+}
