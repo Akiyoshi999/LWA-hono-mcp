@@ -57,21 +57,6 @@ app.options("*", (c) => {
   return c.text("", 200);
 });
 
-// ルートエンドポイント
-app.get("/", (c) => {
-  return c.json({
-    message: "Lambda Weather MCP Server",
-    version: "1.0.0",
-    endpoints: {
-      mcp: "/mcp",
-      weather: "/weather",
-      health: "/health",
-      tools: "/tools",
-    },
-    server: mcpServer.getServerInfo(),
-  });
-});
-
 // ヘルスチェック
 app.get("/health", (c) => {
   return c.json({
@@ -223,52 +208,6 @@ app.get("/mcp", (c) => {
       },
     },
   });
-});
-
-// 天気ツールの直接実行エンドポイント
-app.post("/weather", async (c) => {
-  try {
-    const body = await c.req.json();
-    const { city } = body;
-
-    if (!city) {
-      return c.json({ error: "City parameter is required" }, 400);
-    }
-
-    // 天気データを直接生成（ツールを使わずに）
-    const mockWeatherData = {
-      city: city,
-      temperature: Math.floor(Math.random() * 30 + 10),
-      condition: ["晴れ", "曇り", "雨", "雪"][Math.floor(Math.random() * 4)],
-      humidity: Math.floor(Math.random() * 50 + 30),
-      windSpeed: Math.floor(Math.random() * 20 + 5),
-      timestamp: new Date().toISOString(),
-    };
-
-    const result = `🌤️ ${city}の天気情報
-気温: ${mockWeatherData.temperature}°C
-天候: ${mockWeatherData.condition}
-湿度: ${mockWeatherData.humidity}%
-風速: ${mockWeatherData.windSpeed} km/h
-更新時刻: ${new Date(mockWeatherData.timestamp).toLocaleString("ja-JP")}`;
-
-    return c.json({
-      tool: "getWeather",
-      input: { city },
-      result: result,
-      data: mockWeatherData,
-      timestamp: new Date().toISOString(),
-    });
-  } catch (error) {
-    console.error("Weather tool error:", error);
-    return c.json(
-      {
-        error: "Failed to get weather information",
-        message: error instanceof Error ? error.message : "Unknown error",
-      },
-      500
-    );
-  }
 });
 
 // エラーハンドリング
